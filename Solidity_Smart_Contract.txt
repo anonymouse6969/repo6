@@ -1,0 +1,44 @@
+>>>Solidity Smart Contract for a customer bank account (deposit, withdraw, display balance); Deploy on a test network
+
+Step 1: search remix ide in browser - open the "remix.ethereum.org" link (Not the others)
+
+Step 2: Now the remix ide is open - on the left hand side, see the file explorer section, in that - click on "contracts" folder and click on "create new file" icon - enter the file name "Bank.sol" (.sol is the extension for Solidity language)
+
+Step 3: Write this code as it is
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Bank{
+    
+    uint256 balance = 0;
+    address public accOwner;
+
+    constructor() {
+        accOwner = msg.sender;
+    }
+
+    //Deposit
+    function Deposit() public payable {
+        require(accOwner == msg.sender, "You are not an account owner");
+        require(msg.value >0, "Amount should be greater than 0");
+        balance += msg.value;
+    }
+    //Withdraw
+    function Withdraw() public payable {
+        require(accOwner == msg.sender, "You are not an account owner");
+        require(msg.value >0, "Withdrawal money should be greater than 0");
+        balance -= msg.value;
+    }
+    //Showbalance
+    function showBalance() public view returns(uint256){
+        require(accOwner == msg.sender, "You are not an account owner");
+        return balance;
+    }
+}
+
+Step 4: remove comments and save it "ctrl+s", now in the left most edge, see a "Compile" icon - its the solidity compiler, click on that icon and click on "Compile Bank.sol", if no error then the "Compile" icon has a green tick mark
+
+Step 5: move to the next icon - "Deploy", leave the things as it is, and click on deploy, now move to "Deployed Contracts" tab - you will see 4 icons for the functions Deposit, Withdraw, accOwner and showBalance, scroll down to enter the value of Wei and click on Deposit and Withdraw and Show Balance
+
+Done :)
