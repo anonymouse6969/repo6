@@ -1,0 +1,92 @@
+>>>Solidity contract for student information/data using Structures, Arrays and a Fallback function; Deploy and Examine Gas and Fees
+
+Gas Price: The amount of price that the blockchain technology charges from you(user) for per unit of work done that it(blockchain technology) does for you(user)
+
+Gas Limit: Its a value directly proportional to the complexity of the computation of blockchain transactions and functions, Higher the complexity of the task (like minting an NFT or swapping tokens vs. sending basic crypto), higher the Gas Limit you need so the transaction does not run out of fuel mid-way.
+
+Structures: Same as the one in C language (struct) - it can have multi variable of multi datatypes
+
+Arrays: Same as the one you know
+
+Fallback: A special function, which kicks in when the external user tries to call a function that is not defined in the contract, - it acts as a catch-all safety net that lets the developer decide what happens next.
+If a contract has no fallback function and you call an invalid function, the blockchain automatically reverts the transaction
+With a Fallback Function: The contract accepts the call and runs whatever custom code you wrote inside fallback()
+
+
+Step 1: search remix ide in browser - open the "remix.ethereum.org" link (Not the others)
+
+Step 2: Now the remix ide is open - on the left hand side, see the file explorer section, in that - click on "contracts" folder and click on "create new file" icon - enter the file name "Student.sol" (.sol is the extension for Solidity language)
+
+Step 3: Write this code as it is:
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract StudentData{
+
+    //Structure
+    struct Student{
+        string name;
+        uint256 rollno;
+    }
+
+    //Array
+    Student[] public studentarr;
+
+    function addStudent(string memory name, uint256 rollno) public {
+        for(uint i=0; i<studentarr.length; i++){
+            if(studentarr[i].rollno == rollno){
+                revert("Student already exists");
+            }
+        }
+        studentarr.push(Student(name, rollno));
+    }
+
+    function getStudentsLength() public view returns(uint){
+        return studentarr.length;
+    }
+
+    function displayAllStudents() public view returns(Student[] memory){
+        return studentarr;
+    }
+
+    function getStudentByIndex(uint idx) public view returns(Student memory){
+        require(idx<studentarr.length, "index out of bound");
+        return studentarr[idx];
+    }
+
+    //Fallback
+    fallback() external payable {
+        //This function will handle external function calls that is not there in our contract
+    }
+
+    receive() external payable { 
+        //This function will handle the ether sent by external user but without data mentioned
+    }
+}
+
+Step 4: Compile and Deploy and test the contract
+
+Done :)
+
+
+__________________________________________________
+
+Chat with Gemini to understand Gas Limit better:
+
+my question:	
+	is it like a fuel tank capacity, if i am wanting to go on an adventure where there is no fuel station in the route at all and it has to be a one full tank only trip, i need to choose a car with a appropriate tank size capacity to do so, like if i want to cover Pune to Mumbai on one tank i can choose a Maruti Wagon R with full tank, but for Mumbai to Delhi in full tank i need a larger car like a Mercedes GLS, because with the Wagon R i will be stranded mid way and the trip will be a failure??
+
+the answer>	
+	Yes, that analogy is spot on. Thinking of the Gas Limit as your car's fuel tank capacity on a trip with no gas stations along the way captures every single rule of how blockchain transactions work.
+
+How Your Analogy Maps to Blockchain
+
+• The Trip Distance = Task Complexity
+	• Pune to Mumbai is a short, simple trip, just like sending basic ETH from one wallet to another.
+	• Mumbai to Delhi is a long, complex journey, just like minting an NFT or executing a smart contract.
+• The Fuel Tank Size = Gas Limit
+	• Maruti Wagon R (Small Tank): Works great for Pune to Mumbai. If you try to take it from Mumbai to Delhi without refueling, you run out of fuel mid-way. On the blockchain, your transaction fails with an "Out of Gas" error, and you lose the fuel you already burned.
+	• Mercedes GLS (Large Tank): Gives you the huge capacity needed to finish the Mumbai to Delhi trip without stopping.
+• Unused Fuel in the Tank = Gas Refund
+	• If you take the Mercedes GLS (a high Gas Limit) on the short Pune to Mumbai trip, you arrive safely with plenty of fuel left in the tank. On the blockchain, you only pay for the actual fuel burned during the drive, and the leftover fuel in the tank is automatically refunded to you.
