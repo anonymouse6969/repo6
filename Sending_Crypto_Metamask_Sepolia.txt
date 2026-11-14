@@ -1,0 +1,35 @@
+>>>Create and Configure a Personal Wallet using MetaMask and Perform Cryptographic Transactions
+
+_______________________________________________________
+first create the wallet
+
+Step 1: enter metamask.io on search bar of a browser(preferably chrome)
+
+Step 2: click on "Get MetaMask" icon - it will redirect you to the chrome web store - install the extension
+
+Step 3: in the "let's get started" page of MetaMask, click on "Create New Wallet" icon - select "Use Secret Recovery Phrase"
+
+Step 4: copy the recover phrase and paste it on a text editor for reference for next step
+
+Step 5: fill in the missing words with the appropriate options for the recovery phrase
+
+Step 6: Now your wallet is created, and Done :)
+
+_______________________________________________________
+now the transactions
+
+Step 1: Click on the Hamburger Menu icon on the top right corner, scroll down and click on the "Networks" option - scroll down and find the "Show Test networks" toggle, turn it on, come back to homepage
+
+Step 2: In the homepage of MetaMask, scroll down to find the Tokens tab, click on the "All default networks", scroll down and click on Sepolia
+
+Step 3: now in the homepage on the top left corner, under "Account 1", there are multiple icons of cryptocoins, copy the Ethereum address, the first one in the list next to "Ethereum"
+
+Step 4: now open a new tab of the browser and search "sepolia faucet" - open the link of the Google Cloud option - the Select Network Option should be "Ethereum Sepolia", under that paste the address that you had copied in step 3 for the Wallet Address box, and then click "Get 0.05 Sepolia ETH" button - now you will receive 0.05 Sepolia ETH in metamask, refresh to see
+
+Step 5: now create another account "Account 2" after clicking the "Account 1" in the MetaMask homepage, by clicking on the "Add Account" option, - copy the address
+
+Step 6: In Account 1, click on Send option, scroll down to see SepoliaETH and click it, paste the address of Account 2 under "To", and amount of 0.02, click on "Continue", then click "Confirm", the transaction takes some seconds and gets confirmed,
+
+Step 7: Open Account 2, and see the 0.02 SepoliaETH recieved
+
+Done :)
