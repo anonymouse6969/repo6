@@ -1,0 +1,15 @@
+>>>Install and configure MetaMask; Examine the Ether Transaction costs of Individual Transactions
+
+Step 1: enter metamask.io on search bar of a browser(preferably chrome)
+
+Step 2: click on "Get MetaMask" icon - it will redirect you to the chrome web store - install the extension
+
+Step 3: in the "let's get started" page of MetaMask, click on "Create New Wallet" icon - select "Use Secret Recovery Phrase"
+
+Step 4: copy the recover phrase and paste it on a text editor for reference for next step
+
+Step 5: fill in the missing words with the appropriate options for the recovery phrase
+
+Step 6: Now your wallet is created, and Done :)
+
+...
