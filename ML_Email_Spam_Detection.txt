@@ -1,0 +1,44 @@
+Email Spam Detection
+Classify emails into two states:
+
+
+1.   Normal State
+2.   Abnormal State
+
+Use KNN and SVM for classification
+
+Dataset link: https://www.kaggle.com/datasets/balaka18/email-spam-classification-dataset-csv
+
+___
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+df = pd.read_csv('emails.csv')
+print(df.columns)
+print(df.head())
+print(df.shape)
+
+X = df.drop(columns = ['Prediction', 'Email No.'])
+y = df['Prediction']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train, y_train)
+y_pred_knn = knn.predict(X_test)
+print("KNN Accuracy\n",accuracy_score(y_test, y_pred_knn))
+print("KNN Classification\n",classification_report(y_test, y_pred_knn))
+print("KNN Confustion Matrix\n",confusion_matrix(y_test, y_pred_knn))
+
+svm = SVC(kernel='linear')
+svm.fit(X_train, y_train)
+y_pred_svm = svm.predict(X_test)
+print("SVM Accuracy\n",accuracy_score(y_test, y_pred_svm))
+print("SVM Classification\n",classification_report(y_test, y_pred_svm))
+print("SVM Confustion Matrix\n",confusion_matrix(y_test, y_pred_svm))
+
+___

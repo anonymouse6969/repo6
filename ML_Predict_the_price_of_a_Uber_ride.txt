@@ -1,0 +1,86 @@
+Predict the price of a Uber ride
+Perform:
+
+
+1.   Preprocess the dataset
+2.   Identify outliers
+3.   Check the correlation
+4.   Implement linear regression and Random Forest Regression Models
+5.   Evaluate the models and compare their respective scores like R2, RMSE, etc.
+
+Dataset link: https://www.kaggle.com/datasets/yasserh/uber-fares-dataset
+
+___
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+
+df = pd.read_csv('uber.csv')
+print(df.head)
+print(df.info)
+print(df.isnull().sum())
+df = df.dropna()
+print(df.isnull().sum())
+
+#Using Euclidean Formula to calculate the distances
+df['distance'] = np.sqrt((df['pickup_latitude'] - df['dropoff_latitude'])**2 + (df['pickup_longitude'] - df['dropoff_longitude'])**2)
+print(df.head)
+
+#Filter
+df = df[(df['fare_amount']>0) & (df['fare_amount']<100)]
+df = df[(df['passenger_count']>0) & (df['passenger_count']<=6)]
+df = df[df['distance']<5]
+
+#extract features
+df['pickup_datetime'] = pd.to_datetime(df['pickup_datetime'])
+df['hour'] = df['pickup_datetime'].dt.hour
+df['day_of_week'] = df['pickup_datetime'].dt.dayofweek
+
+sns.boxplot(x=df['fare_amount'])
+plt.title('Fare Amount Boxplot for Outliers')
+plt.show()
+
+corr = df[['fare_amount', 'distance', 'passenger_count', 'hour', 'day_of_week']].corr()
+sns.heatmap(corr, annot=True, cmap='coolwarm')
+plt.title('Correlation Heatmap')
+plt.show()
+
+#feature and target selection
+X = df[['distance', 'passenger_count', 'hour', 'day_of_week']]
+y = df['fare_amount']
+
+#train test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+#linear regression
+lr = LinearRegression()
+lr.fit(X_train, y_train)
+
+y_pred_lr = lr.predict(X_test)
+
+#random forest
+rf = RandomForestRegressor(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+
+y_pred_rf = rf.predict(X_test)
+
+#evaluation function
+def evaluate_model(y_test, y_pred):
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+    r2 = r2_score(y_test, y_pred)
+    print(f'RMSE: {rmse}')
+    print(f'R2 Score: {r2}')
+
+print("Linear Regression Results:")
+evaluate_model(y_test, y_pred_lr)
+
+print("\nRandom Forest Regression Results:")
+evaluate_model(y_test, y_pred_rf)
+
+___
