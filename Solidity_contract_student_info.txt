@@ -90,3 +90,49 @@ How Your Analogy Maps to Blockchain
 	• Mercedes GLS (Large Tank): Gives you the huge capacity needed to finish the Mumbai to Delhi trip without stopping.
 • Unused Fuel in the Tank = Gas Refund
 	• If you take the Mercedes GLS (a high Gas Limit) on the short Pune to Mumbai trip, you arrive safely with plenty of fuel left in the tank. On the blockchain, you only pay for the actual fuel burned during the drive, and the leftover fuel in the tank is automatically refunded to you.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract StudentData {
+    struct Student {
+        string name;
+        uint256 rollno;
+    }
+
+    Student[] public studentarr;
+
+    event FallbackCalled(address sender, uint256 value, bytes data);
+
+    function addStudent(string memory name, uint256 rollno) public {
+        for (uint256 i = 0; i < studentarr.length; i++) {
+            if (studentarr[i].rollno == rollno) {
+                revert("Student already exists");
+            }
+        }
+        studentarr.push(Student(name, rollno));
+    }
+
+    function getStudentsLength() public view returns (uint256) {
+        return studentarr.length;
+    }
+
+    function displayAllStudents() public view returns (Student[] memory) {
+        return studentarr;
+    }
+
+    function getStudentByIndex(uint256 idx) public view returns (Student memory) {
+        require(idx < studentarr.length, "index out of bound");
+        return studentarr[idx];
+    }
+
+    fallback() external payable {
+        emit FallbackCalled(msg.sender, msg.value, msg.data);
+    }
+
+    receive() external payable {
+        emit FallbackCalled(msg.sender, msg.value, "");
+    }
+}
